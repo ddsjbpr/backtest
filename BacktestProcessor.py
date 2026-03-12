@@ -114,8 +114,12 @@ if uploaded_file:
     master_df = st.session_state.master_df
 
     # Filter Options
-    caps = ["All"] + sorted(master_df['marketcapname'].unique().tolist())
-    sectors = ["All"] + sorted(master_df['sector'].unique().tolist())
+    # --- Fixed Filter Options ---
+caps = ["All"] + sorted(master_df['marketcapname'].dropna().unique().tolist())
+
+# Use .dropna() to remove the 5 empty sectors so sorted() doesn't crash
+sectors = ["All"] + sorted(master_df['sector'].dropna().unique().tolist())
+
     
     selected_cap = st.sidebar.selectbox("Market Cap Filter", caps)
     selected_sector = st.sidebar.selectbox("Sector Filter", sectors)
